@@ -1,71 +1,40 @@
 package ro.ulbs.proiectaresoftware.lab3;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class ApplicationLab3 {
     public static void main(String[] args) {
-        Path inputPath = Path.of("in.txt");
-        Path outputPath = Path.of("out.txt");
-
-        List<String> liniiInitiale = Arrays.asList(
-                "Ana are mere",
-                "Ion are pere",
-                "Maria invata Java",
-                "Proiectare software laborator trei"
-        );
-
         try {
-            // Scriere in fisier
-            Files.write(inputPath, liniiInitiale);
-            System.out.println("Fisierul in.txt a fost creat.");
+            String text = Files.readString(Path.of("in.txt"));
 
-            // Citire din fisier
-            List<String> liniiCitite = Files.readAllLines(inputPath);
+            List<String> linii = Arrays.asList(text.split("\\R"));
 
-            System.out.println("\n=== Continut fisier ===");
-            for (String linie : liniiCitite) {
-                System.out.println(linie);
+            StringBuilder rezultatA = new StringBuilder();
+            StringBuilder rezultatB = new StringBuilder();
+
+            for (String linie : linii) {
+                rezultatA.append(linie).append("\n");
             }
 
-            // Split pe cuvinte
-            List<String> cuvinte = new ArrayList<>();
+            System.out.println("a)");
+            System.out.println(rezultatA);
 
-            for (String linie : liniiCitite) {
-                String[] parti = linie.split("\\s+");
-                cuvinte.addAll(Arrays.asList(parti));
+            for (String linie : linii) {
+                rezultatB.append(linie.replace(".", ".\n")).append("\n");
             }
 
-            System.out.println("\n=== Cuvinte nesortate ===");
-            System.out.println(cuvinte);
+            System.out.println("b)");
+            System.out.println(rezultatB);
 
-            // Sortare
-            Collections.sort(cuvinte);
+            String rezultatFinal = "a)\n" + rezultatA + "\n" + "b)\n" + rezultatB;
+            Files.writeString(Path.of("out.txt"), rezultatFinal);
 
-            System.out.println("\n=== Cuvinte sortate ===");
-            System.out.println(cuvinte);
-
-            // Scriere rezultat sortat in out.txt
-            try (BufferedWriter writer = Files.newBufferedWriter(outputPath)) {
-                writer.write("Cuvinte sortate:");
-                writer.newLine();
-
-                for (String cuvant : cuvinte) {
-                    writer.write(cuvant);
-                    writer.newLine();
-                }
-            }
-
-            System.out.println("\nFisierul out.txt a fost creat.");
-
+            System.out.println("Rezultatul a fost salvat in out.txt");
         } catch (IOException e) {
-            System.out.println("A aparut o eroare la lucrul cu fisierele.");
             e.printStackTrace();
         }
     }
