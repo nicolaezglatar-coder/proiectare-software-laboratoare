@@ -2,100 +2,67 @@ package ro.ulbs.proiectaresoftware.lab2;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class ApplicationLab2 {
     public static void main(String[] args) {
+        List<Integer> x = new ArrayList<>();
+        List<Integer> y = new ArrayList<>();
+        List<Integer> xPlusY = new ArrayList<>(); // a
+        Set<Integer> zSet = new TreeSet<>(); // b
+        List<Integer> xMinusY = new ArrayList<>(); // c
+        int p = 4;
+        List<Integer> xPlusYLimitedByP = new ArrayList<>(); // d
 
-        // Primitive
-        int varsta = 20;
-        long populatie = 19000000L;
-        float medieFloat = 8.75f;
-        double medieDouble = 9.25;
-        char litera = 'A';
-        byte nota = 10;
+        Random random = new Random();
 
-        System.out.println("=== Primitive ===");
-        System.out.println("int: " + varsta);
-        System.out.println("long: " + populatie);
-        System.out.println("float: " + medieFloat);
-        System.out.println("double: " + medieDouble);
-        System.out.println("char: " + litera);
-        System.out.println("byte: " + nota);
-
-        // Conversie String -> int / double
-        String numarText = "123";
-        int numar = Integer.parseInt(numarText);
-
-        String doubleText = "45.67";
-        double valoare = Double.parseDouble(doubleText);
-
-        System.out.println("\n=== Conversii ===");
-        System.out.println("String -> int: " + numar);
-        System.out.println("String -> double: " + valoare);
-
-        // List cu ArrayList
-        List<String> studenti = new ArrayList<>();
-
-        studenti.add("Ion");
-        studenti.add("Maria");
-        studenti.add("Andrei");
-        studenti.add("Elena");
-        studenti.add("Maria");
-
-        System.out.println("\n=== ArrayList ===");
-        System.out.println("Lista initiala: " + studenti);
-        System.out.println("Primul student: " + studenti.get(0));
-        System.out.println("Contine Maria? " + studenti.contains("Maria"));
-        System.out.println("Dimensiune lista: " + studenti.size());
-
-        studenti.remove("Ion");
-        System.out.println("Dupa stergere Ion: " + studenti);
-
-        Collections.sort(studenti);
-        System.out.println("Lista sortata: " + studenti);
-
-        System.out.println("\nParcurgere cu for-each:");
-        for (String student : studenti) {
-            System.out.println(student);
+        for (int i = 0; i < 5; i++) {
+            x.add(random.nextInt(11));
         }
 
-        System.out.println("\nParcurgere cu Iterator:");
-        Iterator<String> iterator = studenti.iterator();
-        while (iterator.hasNext()) {
-            String student = iterator.next();
-            System.out.println(student);
+        for (int i = 0; i < 7; i++) {
+            y.add(random.nextInt(11));
         }
 
-        // LinkedList
-        List<String> discipline = new LinkedList<>();
+        Collections.sort(x);
+        Collections.sort(y);
 
-        discipline.add("Java");
-        discipline.add("Baze de date");
-        discipline.add("Proiectare software");
+        xPlusY.addAll(x);
+        xPlusY.addAll(y);
+        Collections.sort(xPlusY);
 
-        System.out.println("\n=== LinkedList ===");
-        System.out.println(discipline);
+        for (Integer element : x) {
+            if (y.contains(element)) {
+                zSet.add(element);
+            }
+        }
 
-        // Set - nu permite duplicate
-        Set<String> numeUnice = new HashSet<>();
+        for (Integer element : x) {
+            if (!y.contains(element)) {
+                xMinusY.add(element);
+            }
+        }
 
-        numeUnice.add("Ion");
-        numeUnice.add("Maria");
-        numeUnice.add("Ion");
-        numeUnice.add("Andrei");
+        Collections.sort(xMinusY);
 
-        System.out.println("\n=== HashSet ===");
-        System.out.println("Set fara duplicate: " + numeUnice);
+        for (Integer element : xPlusY) {
+            if (element <= p) {
+                xPlusYLimitedByP.add(element);
+            }
+        }
 
-        // Stream simplu
-        System.out.println("\n=== Stream ===");
-        studenti.stream()
-                .filter(s -> s.startsWith("M") || s.startsWith("A"))
-                .forEach(s -> System.out.println("Student filtrat: " + s));
+        Collections.sort(xPlusYLimitedByP);
+
+        System.out.println("x = " + x);
+        System.out.println("y = " + y);
+        System.out.println("p = " + p);
+
+        System.out.println("a) xPlusY = " + xPlusY);
+        System.out.println("b) zSet = " + zSet);
+        System.out.println("c) xMinusY = " + xMinusY);
+        System.out.println("d) xPlusYLimitedByP = " + xPlusYLimitedByP);
     }
 }
