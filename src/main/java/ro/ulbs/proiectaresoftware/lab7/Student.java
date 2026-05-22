@@ -1,0 +1,57 @@
+package ro.ulbs.proiectaresoftware.lab7;
+
+import java.util.Objects;
+
+public final class Student {
+    private final int numarMatricol;
+    private final String prenume;
+    private final String nume;
+    private final String formatieDeStudiu;
+
+    public Student(int numarMatricol, String prenume, String nume, String formatieDeStudiu) {
+        this.numarMatricol = numarMatricol;
+        this.prenume = prenume;
+        this.nume = nume;
+        this.formatieDeStudiu = formatieDeStudiu;
+    }
+
+    public int getNumarMatricol() {
+        return numarMatricol;
+    }
+
+    public String getPrenume() {
+        return prenume;
+    }
+
+    public String getNume() {
+        return nume;
+    }
+
+    public String getFormatieDeStudiu() {
+        return formatieDeStudiu;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-10d %-12s %-12s %-10s",
+                numarMatricol, prenume, nume, formatieDeStudiu);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+
+        Student student = (Student) o;
+
+        return numarMatricol == student.numarMatricol
+                && Objects.equals(prenume, student.prenume)
+                && Objects.equals(nume, student.nume)
+                && Objects.equals(formatieDeStudiu, student.formatieDeStudiu);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numarMatricol, prenume, nume, formatieDeStudiu);
+    }
+}

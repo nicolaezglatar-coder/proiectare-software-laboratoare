@@ -6,6 +6,9 @@ import ro.ulbs.proiectaresoftware.lab7.forms.Square;
 import ro.ulbs.proiectaresoftware.lab7.forms.Triangle;
 import ro.ulbs.proiectaresoftware.lab7.util.PasswordMaker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ApplicationLab7 {
     public static void main(String[] args) {
         Triangle triangle = new Triangle(1.1F, 2.0F, "red");
@@ -23,5 +26,56 @@ public class ApplicationLab7 {
 
         System.out.println("Same singleton instance? " + (passwordMaker1 == passwordMaker2));
         System.out.println("Generated password: " + passwordMaker1.getPassword("Nicolae"));
+
+        System.out.println();
+        System.out.println("7.6.3 Imutabilitate");
+
+        List<Student> studenti = new ArrayList<>();
+
+        studenti.add(new Student(112, "Ioan", "Popa", "TI21"));
+        studenti.add(new Student(113, "Maria", "Oprea", "TI21"));
+        studenti.add(new Student(120, "Alis", "Popa", "TI21"));
+        studenti.add(new Student(122, "Mihai", "Vecerdea", "TI21"));
+        studenti.add(new Student(123, "Eugen", "Uritescu", "TI21"));
+
+        System.out.println("Lista initiala:");
+        for (Student student : studenti) {
+            System.out.println(student);
+        }
+
+        List<Student> listaNoua = imparteInDouaFormatii(studenti, "TI211/1", "TI211/2");
+
+        System.out.println();
+        System.out.println("Lista dupa impartirea in doua formatii:");
+        for (Student student : listaNoua) {
+            System.out.println(student);
+        }
+    }
+
+    public static Student mutaStudent(Student student, String nouaFormatie) {
+        return new Student(
+                student.getNumarMatricol(),
+                student.getPrenume(),
+                student.getNume(),
+                nouaFormatie
+        );
+    }
+
+    public static List<Student> imparteInDouaFormatii(List<Student> studenti, String formatia1, String formatia2) {
+        List<Student> rezultat = new ArrayList<>();
+
+        int limitaPrimaFormatie = (studenti.size() + 1) / 2;
+
+        for (int i = 0; i < studenti.size(); i++) {
+            Student student = studenti.get(i);
+
+            if (i < limitaPrimaFormatie) {
+                rezultat.add(mutaStudent(student, formatia1));
+            } else {
+                rezultat.add(mutaStudent(student, formatia2));
+            }
+        }
+
+        return rezultat;
     }
 }
