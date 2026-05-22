@@ -1,6 +1,7 @@
 package ro.ulbs.proiectaresoftware.lab9;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -8,6 +9,14 @@ import java.util.stream.Collectors;
 
 public class ApplicationLab9 {
     public static void main(String[] args) {
+        problema931();
+
+        System.out.println("-----------------------------------------");
+
+        problema932();
+    }
+
+    public static void problema931() {
         Random random = new Random();
         List<Integer> lista = new ArrayList<>();
 
@@ -15,6 +24,7 @@ public class ApplicationLab9 {
             lista.add(random.nextInt(21) + 5);
         }
 
+        System.out.println("9.3.1");
         System.out.println("Lista initiala:");
         System.out.println(lista);
 
@@ -56,5 +66,43 @@ public class ApplicationLab9 {
                 .anyMatch(n -> n == 12);
 
         System.out.println("e) Lista contine valoarea 12: " + contine12);
+    }
+
+    public static void problema932() {
+        String text = "Acesta este un program scris in java pentru expresii lambda";
+
+        List<String> cuvinte = Arrays.asList(text.split(" "));
+
+        System.out.println("9.3.2");
+        System.out.println("Lista initiala:");
+        System.out.println(cuvinte);
+
+        List<String> listaFiltrata = cuvinte.stream()
+                .filter(cuvant -> cuvant.length() >= 5)
+                .collect(Collectors.toList());
+
+        long numarCuvinte = listaFiltrata.stream()
+                .count();
+
+        System.out.println("a) Numar cuvinte cu lungime >= 5: " + numarCuvinte);
+        System.out.println("a) Lista filtrata:");
+        System.out.println(listaFiltrata);
+
+        List<String> listaSortata = listaFiltrata.stream()
+                .sorted()
+                .collect(Collectors.toList());
+
+        System.out.println("b) Lista sortata:");
+        System.out.println(listaSortata);
+
+        Optional<String> cuvantCuP = cuvinte.stream()
+                .filter(cuvant -> cuvant.startsWith("p"))
+                .findFirst();
+
+        if (cuvantCuP.isPresent()) {
+            System.out.println("c) Cuvant care incepe cu litera p: " + cuvantCuP.get());
+        } else {
+            System.out.println("c) Nu exista cuvant care incepe cu litera p.");
+        }
     }
 }
