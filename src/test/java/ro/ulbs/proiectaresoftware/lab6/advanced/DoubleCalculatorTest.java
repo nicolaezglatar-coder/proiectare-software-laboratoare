@@ -2,8 +2,7 @@ package ro.ulbs.proiectaresoftware.lab6.advanced;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DoubleCalculatorTest {
 
@@ -73,5 +72,28 @@ public class DoubleCalculatorTest {
                 .result();
 
         assertEquals(25.74, result, 0.0001);
+    }
+    @Test
+    public void testMultiplyByZero() {
+        DoubleCalculator calculator = new DoubleCalculator();
+
+        Double result = calculator.init()
+                .add(10.0)
+                .multiply(0.0)
+                .result();
+
+        assertEquals(0.0, result, 0.0001);
+    }
+
+    @Test
+    public void testDivideByZero() {
+        DoubleCalculator calculator = new DoubleCalculator();
+
+        Double result = calculator.init()
+                .add(10.0)
+                .divide(0.0)
+                .result();
+
+        assertTrue(Double.isInfinite(result));
     }
 }
