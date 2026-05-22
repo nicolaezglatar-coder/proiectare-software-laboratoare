@@ -17,6 +17,7 @@ public class ApplicationLab8 {
 
         citesteSiGenereazaOutput1(inputFile, "laborator8_output.xlsx");
         genereazaOutput2(inputFile, "laborator8_output2.xlsx");
+        genereazaOutput3(inputFile, "laborator8_output3.xlsx");
     }
 
     public static void citesteSiGenereazaOutput1(String inputFile, String outputFile) {
@@ -121,6 +122,59 @@ public class ApplicationLab8 {
             e.printStackTrace();
         }
     }
+    public static void genereazaOutput3(String inputFile, String outputFile) {
+        try (
+                FileInputStream inputStream = new FileInputStream(inputFile);
+                Workbook inputWorkbook = new XSSFWorkbook(inputStream);
+                Workbook outputWorkbook = new XSSFWorkbook()
+        ) {
+            Sheet inputSheet = inputWorkbook.getSheetAt(0);
+            Sheet outputSheet = outputWorkbook.createSheet(inputSheet.getSheetName());
+
+            for (Row inputRow : inputSheet) {
+                Row outputRow = outputSheet.createRow(inputRow.getRowNum());
+
+                int lastCellIndex = inputRow.getLastCellNum();
+
+                for (int i = 0; i < lastCellIndex; i++) {
+                    Cell inputCell = inputRow.getCell(i);
+                    Cell outputCell = outputRow.createCell(i);
+
+                    if (inputCell != null) {
+                        copiazaCelula(inputCell, outputCell);
+                    }
+                }
+
+                Cell mediaCell = outputRow.createCell(lastCellIndex);
+
+                if (inputRow.getRowNum() == 0) {
+                    mediaCell.setCellValue("Media formula");
+                } else {
+                    int excelRowNumber = inputRow.getRowNum() + 1;
+                    mediaCell.setCellFormula("AVERAGE(D" + excelRowNumber + ":F" + excelRowNumber + ")");
+                }
+            }
+
+            if (inputSheet.getRow(0) != null) {
+                int nrColoane = inputSheet.getRow(0).getLastCellNum() + 1;
+
+                for (int i = 0; i < nrColoane; i++) {
+                    outputSheet.autoSizeColumn(i);
+                }
+            }
+
+            try (FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+                outputWorkbook.write(outputStream);
+            }
+
+            System.out.println("Fisierul " + outputFile + " a fost creat.");
+
+        } catch (IOException e) {
+            System.out.println("Eroare la generarea fisierului " + outputFile);
+            e.printStackTrace();
+        }
+    }
+
 
     private static void afiseazaCelula(Cell cell) {
         switch (cell.getCellType()) {
